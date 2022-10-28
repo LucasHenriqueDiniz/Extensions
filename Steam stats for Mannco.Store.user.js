@@ -4,13 +4,14 @@
 // @version      1
 // @description  Provides the steam info and a link to respective mannco item
 // @author       Amaya
+// @license      MIT
 
 // @match        *://mannco.store/item/*
 // @icon         https://cdn-icons-png.flaticon.com/512/194/194978.png
 
-// @homepageURL     https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store
-// @supportURL      https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/issues
-// @downloadURL     https://raw.githubusercontent.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/main/Steam%20stats%20for%20Mannco.Store
+// @homepageURL  https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store
+// @supportURL   https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/issues
+// @downloadURL  https://raw.githubusercontent.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/main/Steam%20stats%20for%20Mannco.Store
 
 // @grant        GM.xmlHttpRequest
 // @grant        unsafeWindow
