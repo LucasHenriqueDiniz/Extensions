@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      1
+// @version      0.1
 // @description  Provides the steam info and a link to respective mannco item
 // @author       Amaya
 // @license      MIT
@@ -20,28 +20,28 @@
 // @grant        window.onurlchange
 // ==/UserScript==
 
-    var APPID;
-    var CURRENCY = 1 //1 = $ | 2 = £ | 3 Euro | 4 CHLF | 5 py6 | 6 polony | 7 RS br
-    var ITEMNAME = document.querySelector("#page-sidebar > div > div > div.card-item > h2 > span").textContent.trim().replaceAll('#', '%23').replaceAll(`'`, '%27')
-    //var APPID = window.location.href.match(/(?<=\/)[0-9]{3,6}/g)
+var APPID;
+var CURRENCY = 1 //1 = $ | 2 = £ | 3 Euro | 4 CHLF | 5 py6 | 6 polony | 7 R$
+var ITEMNAME = document.querySelector("#page-sidebar > div > div > div.card-item > h2 > span").textContent.trim().replaceAll('#', '%23').replaceAll(`'`, '%27')
+//var APPID = window.location.href.match(/(?<=\/)[0-9]{3,6}/g)
 
- switch (document.querySelector("#store-game > ul > li.nav-item.active").textContent.trim()) {
-     case ('Counter Strike'):
-         APPID = 730;
-         break;
-     case ('Team Fortress 2'):
-         APPID = 440;
-         break;
-     case ('Rust'):
-         APPID = 252490;
-         break;
-     case ('Dota 2'):
-         APPID = 570;
-         break;
-     case ('Physical & Gift Cards'):
-         APPID = null;
-         break;
- }
+switch (document.querySelector("#store-game > ul > li.nav-item.active").textContent.trim()) {
+    case ('Counter Strike'):
+        APPID = 730;
+        break;
+    case ('Team Fortress 2'):
+        APPID = 440;
+        break;
+    case ('Rust'):
+        APPID = 252490;
+        break;
+    case ('Dota 2'):
+        APPID = 570;
+        break;
+    case ('Physical & Gift Cards'):
+        APPID = null;
+        break;
+}
 
 var Card2 = document.createElement('div')
 Card2.id = "cardbody2";
@@ -50,11 +50,13 @@ Card2.setAttribute("style", "position: relative;display: flex;flex-direction: co
 document.querySelector("#page-sidebar").appendChild(Card2);
 
 //
+
 var SteamTitle = document.createElement('text')
 SteamTitle.className = 'item-name'
 SteamTitle.innerHTML = 'Steam Info'
 SteamTitle.style = "margin-top: 0.25rem;box-sizing: border-box;font-weight: 700;color: #adaadf;margin-bottom: 15px;text-align: center;"
 document.getElementById("cardbody2").appendChild(SteamTitle);
+
 //
 
 var li1 = document.createElement('div')
@@ -108,17 +110,17 @@ document.querySelector("#cardbody2 > div:nth-child(4) > div").appendChild(dtV)
 //
 
 var ddLP = document.createElement('div')
-ddLP.innerHTML = 'loading...'
+ddLP.innerHTML = '⏳ loading ⏳'
 ddLP.style = Text
 document.querySelector("#cardbody2 > div:nth-child(2) > div").appendChild(ddLP)
 
 var ddMP = document.createElement('div')
-ddMP.innerHTML = 'loading...'
+ddMP.innerHTML = '⏳ loading ⏳'
 ddMP.style = Text
 document.querySelector("#cardbody2 > div:nth-child(3) > div").appendChild(ddMP)
 
 var ddV = document.createElement('div')
-ddV.innerHTML = 'loading...'
+ddV.innerHTML = '⏳ loading ⏳'
 ddV.style = Text
 document.querySelector("#cardbody2 > div:nth-child(4) > div").appendChild(ddV)
 
@@ -127,12 +129,11 @@ document.querySelector("#cardbody2 > div:nth-child(4) > div").appendChild(ddV)
 var SteamLink = document.createElement('button')
 SteamLink.id = "NomeNovo";
 SteamLink.textContent = "Open on the steam market"
-SteamLink.title = `open the page on steam market for the item ${ITEMNAME}`
+SteamLink.title = `open ${ITEMNAME} on the steam market`
 SteamLink.style = "font-family: inherit;text-align: center;border-radius: 1rem;padding: 0.55rem 1.25rem;font-weight: 600;border: none rgb(255 255 255);background-color: rgb(27, 166, 193);color: rgb(255, 255, 255);font-size: 25px;margin-top: 15px;"
 document.querySelector("#cardbody2 > div:nth-child(4) > div").appendChild(SteamLink);
 
 SteamLink.onclick = function newtab(link) {
-
     var SteamSearchLink = `https://steamcommunity.com/market/listings/${APPID}/${ITEMNAME}`;
     window.open(SteamSearchLink)
 }
@@ -141,34 +142,29 @@ SteamLink.onclick = function newtab(link) {
 
 document.querySelector("#page-sidebar > div:nth-child(1) > div > div.item-info > ul")
 
+var apiLink = `https://steamcommunity.com/market/priceoverview/?appid=${APPID}&currency=${CURRENCY}&market_hash_name=${ITEMNAME}`
 
-        var apiLink = `https://steamcommunity.com/market/priceoverview/?appid=${APPID}&currency=${CURRENCY}&market_hash_name=${ITEMNAME}`
-        console.log(APPID + ' | ' + CURRENCY + ' | ' + ITEMNAME + ' | ' + apiLink)
-        console.log('')
+function GetData() {
+    GM.xmlHttpRequest({
+        method: "GET",
+        url: apiLink,
+        responseType: "json",
+        onload: function (response) {
+            var obj = JSON.parse(response.responseText);
 
+            if (obj.lowest_price === undefined) {
+                document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value"
+            } else { document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = obj.lowest_price }
 
-function GetData () {
-GM.xmlHttpRequest({
-  method: "GET",
-  url: apiLink,
-  responseType: "json",
-  onload: function(response) {
-      var obj = JSON.parse(response.responseText);
+            if (obj.median_price === undefined) {
+                document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value"
+            } else { document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = obj.median_price }
 
-      if (obj.lowest_price === undefined) {
-      document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = "error finding the steam price"
-      } else {document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = obj.lowest_price}
-
-      if (obj.median_price === undefined) {
-      document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = "Couldn't get the value"
-      } else {document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = obj.median_price}
-
-      if (obj.volume === undefined) {
-      document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = "volume not found"
-      } else {document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = obj.volume}
-      console.log(response.responseText)
-  }
-});
+            if (obj.volume === undefined) {
+                document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the Volume"
+            } else { document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = obj.volume }
+        }
+    });
 }
 
 GetData()
@@ -179,7 +175,13 @@ refresh.innerHTML = '↻'
 refresh.title = "update the prices"
 refresh.style = "display: block;margin-left: auto;margin-right: auto;width: 25%;text-align: center;border-radius: 0.75rem;padding: 0.5rem 1.25rem;font-weight: 700;border: none rgb(255 255 255);background-color: rgb(27, 166, 193);font-size: 35px;margin-top: 15px;box-align: center;"
 document.querySelector("#cardbody2").appendChild(refresh)
-refresh.addEventListener("click", GetData);
+refresh.addEventListener("click", function refresh(GetData) {
+    document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = '⏳'
+    document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = '⏳'
+    document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = '⏳'
+    GetData()
+});
+//refresh.addEventListener("click", GetData);
 
 
 
