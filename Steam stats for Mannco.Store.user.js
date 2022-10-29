@@ -1,27 +1,27 @@
 // ==UserScript==
+
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      0.1
-// @description  Provides the steam info and a link to respective mannco item
+// @version      0.12
+// @description  Provides the Steam info and a link to respective mannco item
 // @author       Lucas Diniz
 // @license      MIT
 
 // @match        *://mannco.store/item/*
+// @grant        GM.xmlHttpRequest
 // @icon         https://cdn-icons-png.flaticon.com/512/194/194978.png
 
 // @homepageURL  https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store
 // @supportURL   https://github.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/issues
 // @downloadURL  https://raw.githubusercontent.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/main/Steam%20stats%20for%20Mannco.Store
 
-// @grant        GM.xmlHttpRequest
-// @grant        unsafeWindow
-// @grant        window.close
-// @grant        window.focus
 // ==/UserScript==
 
 var APPID;
 var CURRENCY = 1 //1 = $ | 2 = £ | 3 Euro | 4 CHLF | 5 py6 | 6 polony | 7 R$
 var ITEMNAME = document.querySelector("#page-sidebar > div > div > div.card-item > h2 > span").textContent.trim().replaceAll('#', '%23').replaceAll(`'`, '%27')
+
+//Need a better way for the future, this one sometimes bugs
 //var APPID = window.location.href.match(/(?<=\/)[0-9]{3,6}/g)
 
 switch (document.querySelector("#store-game > ul > li.nav-item.active").textContent.trim()) {
@@ -53,7 +53,7 @@ document.querySelector("#page-sidebar").appendChild(Card2);
 var SteamTitle = document.createElement('text')
 SteamTitle.className = 'item-name'
 SteamTitle.innerHTML = 'Steam Info'
-SteamTitle.style = "margin-top: 0.25rem;box-sizing: border-box;font-weight: 700;color: #adaadf;margin-bottom: 15px;text-align: center;"
+SteamTitle.style = "margin-top: 0.25rem;box-sizing: border-box;font-weight: 700;color: #adaadf;margin-bottom: 15px;text-align: center;color: rgb(255 255 255);font-size: 2rem;"
 document.getElementById("cardbody2").appendChild(SteamTitle);
 
 //
@@ -144,6 +144,9 @@ document.querySelector("#page-sidebar > div:nth-child(1) > div > div.item-info >
 var apiLink = `https://steamcommunity.com/market/priceoverview/?appid=${APPID}&currency=${CURRENCY}&market_hash_name=${ITEMNAME}`
 
 function GetData() {
+    document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = '⏳'
+    document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = '⏳'
+    document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = '⏳'
     GM.xmlHttpRequest({
         method: "GET",
         url: apiLink,
@@ -152,15 +155,15 @@ function GetData() {
             var obj = JSON.parse(response.responseText);
 
             if (obj.lowest_price === undefined) {
-                document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value"
+                document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value ❌"
             } else { document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = obj.lowest_price }
 
             if (obj.median_price === undefined) {
-                document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value"
+                document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the value ❌"
             } else { document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = obj.median_price }
 
             if (obj.volume === undefined) {
-                document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the Volume"
+                document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = "❌ Couldn't get the Volume ❌"
             } else { document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = obj.volume }
         }
     });
@@ -172,18 +175,9 @@ var refresh = document.createElement('button')
 refresh.id = "refreshButton"
 refresh.innerHTML = '↻'
 refresh.title = "update the prices"
-refresh.style = "display: block;margin-left: auto;margin-right: auto;width: 25%;text-align: center;border-radius: 0.75rem;padding: 0.5rem 1.25rem;font-weight: 700;border: none rgb(255 255 255);background-color: rgb(27, 166, 193);font-size: 35px;margin-top: 15px;box-align: center;"
+refresh.style = "display: block;margin-left: auto;margin-right: auto;width: 25%;text-align: center;border-radius: 0.75rem;padding: 0.5rem 1rem;font-weight: 700;border: none rgb(255 255 255);background-color: rgb(27, 166, 193);font-size: 35px;margin-top: 15px;box-align: center;"
 document.querySelector("#cardbody2").appendChild(refresh)
-refresh.addEventListener("click", function refresh(GetData) {
-    document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = '⏳'
-    document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = '⏳'
-    document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = '⏳'
-    GetData
-});
-//refresh.addEventListener("click", GetData);
-
-
-
+refresh.addEventListener("click", GetData);
 
 /*
 //maybe a future method to show my local currency | EX Item value = 100$ (500R$)
@@ -203,6 +197,6 @@ GM.xmlHttpRequest({
 document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = ('R$' + (test.replace('$', '') * ${DolarValue}).toFixed(2))
 
 */
-//misc
 
+//misc fixes
 document.querySelector("#page-sidebar > div.card > div > div.card-item > h2 > span").style = "text-align: center;"
