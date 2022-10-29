@@ -3,7 +3,7 @@
 // @namespace    https://github.com/LucasHenriqueDiniz
 // @version      0.1
 // @description  Provides the steam info and a link to respective mannco item
-// @author       Amaya
+// @author       Lucas Diniz
 // @license      MIT
 
 // @match        *://mannco.store/item/*
@@ -17,7 +17,6 @@
 // @grant        unsafeWindow
 // @grant        window.close
 // @grant        window.focus
-// @grant        window.onurlchange
 // ==/UserScript==
 
 var APPID;
