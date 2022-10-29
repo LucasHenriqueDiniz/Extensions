@@ -178,7 +178,7 @@ refresh.addEventListener("click", function refresh(GetData) {
     document.querySelector("#cardbody2 > div:nth-child(4) > div > div:nth-child(2)").innerHTML = '⏳'
     document.querySelector("#cardbody2 > div:nth-child(3) > div > div:nth-child(2)").innerHTML = '⏳'
     document.querySelector("#cardbody2 > div:nth-child(2) > div > div:nth-child(2)").innerHTML = '⏳'
-    GetData()
+    GetData
 });
 //refresh.addEventListener("click", GetData);
 
