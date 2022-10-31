@@ -2,7 +2,7 @@
 
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      0.121
+// @version      0.13
 // @description  Provides the Steam info and a link to respective mannco item
 // @author       Lucas Diniz
 // @license      MIT
