@@ -2,11 +2,12 @@
 
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      0.13
+// @version      0.131
 // @description  Provides the Steam info and a link to respective mannco item
 // @author       Lucas Diniz
 // @license      MIT
 
+// @require      https://code.jquery.com/jquery-3.6.1.min.js
 // @match        *://mannco.store/item/*
 // @grant        GM.xmlHttpRequest
 // @icon         https://cdn-icons-png.flaticon.com/512/194/194978.png
@@ -16,6 +17,8 @@
 // @downloadURL  https://raw.githubusercontent.com/LucasHenriqueDiniz/Steam-stats-for-Mannco.Store/main/Steam%20stats%20for%20Mannco.Store
 
 // ==/UserScript==
+var $ = window.jQuery;
+
 
 var APPID;
 var CURRENCY = 1 //1 = $ | 2 = £ | 3 Euro | 4 CHLF | 5 py6 | 6 polony | 7 R$
