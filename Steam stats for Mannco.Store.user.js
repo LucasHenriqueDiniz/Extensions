@@ -2,7 +2,7 @@
 
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      0.12
+// @version      0.121
 // @description  Provides the Steam info and a link to respective mannco item
 // @author       Lucas Diniz
 // @license      MIT
@@ -22,24 +22,34 @@ var CURRENCY = 1 //1 = $ | 2 = £ | 3 Euro | 4 CHLF | 5 py6 | 6 polony | 7 R$
 var ITEMNAME = document.querySelector("#page-sidebar > div > div > div.card-item > h2 > span").textContent.trim().replaceAll('#', '%23').replaceAll(`'`, '%27')
 
 //Need a better way for the future, this one sometimes bugs
-//var APPID = window.location.href.match(/(?<=\/)[0-9]{3,6}/g)
 
-switch (document.querySelector("#store-game > ul > li.nav-item.active").textContent.trim()) {
-    case ('Counter Strike'):
-        APPID = 730;
-        break;
-    case ('Team Fortress 2'):
-        APPID = 440;
-        break;
-    case ('Rust'):
-        APPID = 252490;
-        break;
-    case ('Dota 2'):
-        APPID = 570;
-        break;
-    case ('Physical & Gift Cards'):
-        APPID = null;
-        break;
+APPID = window.location.href.match(/(?<=\/)[0-9]{3,6}/g)
+
+if (APPID != 440 && APPID != 730 && APPID != 252490 && APPID != 570) {
+
+    if ($('dt')[$('dt').length - 1].firstChild.textContent === "SKU") {
+
+        APPID = 440
+    } else {
+
+        switch (document.querySelector("#store-game > ul > li.nav-item.active").textContent.trim()) {
+            case ('Counter Strike'):
+                APPID = 730;
+                break;
+            case ('Team Fortress 2'):
+                APPID = 440;
+                break;
+            case ('Rust'):
+                APPID = 252490;
+                break;
+            case ('Dota 2'):
+                APPID = 570;
+                break;
+            case ('Physical & Gift Cards'):
+                APPID = null;
+                break;
+        }
+    }
 }
 
 var Card2 = document.createElement('div')
