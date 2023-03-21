@@ -1,13 +1,10 @@
 # Steam stats on Mannco.Store
-• adds a steam card of the item page showing the values for the item
-
-• adds a button to open the item in the steam market
-
-• adds a button to go back to the top of the page
+- adds a steam card of the item page showing the values for the item
+- adds a button to open the item in the steam market
+- adds a button to go back to the top of the page
 
 ## FAQ
-How to change the currency of the item?
-
+###How to change the currency of the item?
 A: just need to change the varible currency in the code, theres a comment showing the number for each specific currency, in the future maybe i add a menu
 
 ## Installation
