@@ -2,7 +2,7 @@
 
 // @name         Steam Info for mannco.store
 // @namespace    https://github.com/LucasHenriqueDiniz
-// @version      1
+// @version      1.1
 // @description  Provides the Steam info and a link to respective mannco item
 // @author       Lucas Diniz
 // @license      MIT
@@ -116,6 +116,7 @@
     `;
 
     const backToTopGoogleIcon = `
+    font-size: 45;
     transform: rotate(-90deg);
     text-align: center;
     display: flex;
@@ -149,23 +150,22 @@
     link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0';
     document.head.appendChild(link);
     //appends an googlefonts icon
-    function googleIcon(iconName,iconSize , element, cssStyle) {
+    function googleIcon(iconName,IDname , element, cssStyle) {
         //iconName the name of the icon 'navigate_next, navigate_before'
         //iconSize the size of the icon "INT"
         //element = where you want the icon to be appeneded
         const icon = document.createElement('span');
         icon.style.cssText = cssStyle
         icon.classList.add('icon-asset', 'material-symbols-outlined');
-        icon.id = 'icon'
+        icon.id = IDname
         icon.textContent = iconName.toLowerCase()
-        icon.style.fontSize = iconSize + 'px'
         element.appendChild(icon);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //BACK TO THE TOP BUTTON
     const backToTopButton = document.createElement("button");
     backToTopButton.innerHTML = "";
-    googleIcon('navigate_next', 45, backToTopButton, backToTopGoogleIcon)
+    googleIcon('navigate_next', 'navigateNext', backToTopButton, backToTopGoogleIcon)
     backToTopButton.title = 'go back to the top of the page'
     backToTopButton.classList.add("back-to-top");
     document.body.appendChild(backToTopButton);
@@ -236,6 +236,19 @@
     steamtitle.textContent = 'Steam Info';
     steamtitle.style.cssText = 'margin-top: 0.25rem; box-sizing: border-box; font-weight: 700; color: #adaadf; margin-bottom: 15px; text-align: center; color: rgb(255, 255, 255); font-size: 2rem;';
     steamSidebar.appendChild(steamtitle);
+    //gearbuttonwithanimation
+    /*
+    googleIcon('Settings', 'Settings', steamSidebar, 'display: flex; font-color: white; font-size: 35px; position: absolute; right: 7%; transform: rotate(0deg); border-radius: 1.5rem; transition: ease-out 500ms; transition-property: transform, font-size, color')
+    const settingsButton = document.querySelector('#Settings')
+    settingsButton.addEventListener('mouseover', () => {
+        settingsButton.style.color = '#5ad1e8'
+        settingsButton.style.transform = 'rotate(180deg)';
+    });
+    settingsButton.addEventListener('mouseout', () => {
+        settingsButton.style.color = 'white'
+        settingsButton.style.transform = 'rotate(0deg)';
+    });
+    */
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Create list items for card
     const itemTitles = ['Lower Price', 'Median Price', 'Volume'];
