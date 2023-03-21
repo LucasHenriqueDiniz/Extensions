@@ -5,7 +5,7 @@
 
 ## FAQ
 ###How to change the currency of the item?
-A: just need to change the varible currency in the code, theres a comment showing the number for each specific currency, in the future maybe i add a menu
+- A: just need to change the varible currency in the code, theres a comment showing the number for each specific currency, in the future maybe i add a menu
 
 ## Installation
 - Install [Tampermonkey](https://www.tampermonkey.net/). 
